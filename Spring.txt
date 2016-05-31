@@ -1,0 +1,89 @@
+﻿■404エラー：
+・Java コンパイラー・レベルが、インストールされている Java プロジェクト・ファセットのバージョンと一致しません。
+・プロジェクト・ファセットのバージョンを 動的 Web モジュール から 2.5 に変更できません。
+
+↓
+
+プロジェクトファセットで変更したバージョンを元に戻し、pom内のバージョンのみ書き替え。
+プロジェクトの実行からMavenInstall。Mavenプロジェクトの更新。
+サーバーの構成で実行したいプロジェクトが追加されているかチェック。
+
+
+■lombok設定:
+１．/eclipse直下にlombok.jarを配置
+２．eclipse.iniに下記を追記
+
+	-javaagent:lombok.jar
+	-Xbootclasspath/a:lombok.jar
+
+３．pom.xmlに下記を追記
+
+	<dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<version>1.16.8</version>
+		<scope>provided</scope>
+	</dependency>
+	
+	
+
+■エラーメモ
+
+・404
+No Mapping
+コントローラーのreturnのURLの確認
+
+
+・ServiceのNullPointer→Service毎に@Autowiredアノテーションの記述していなかった
+
+・JSPから入力された値を取得できない→属性をpathからnameに変更
+
+・引数(User user)を渡したMapper.xmlのinsertでエラー
+→<insert>タグ内にparameterType"～entity.User"を追加し、SQL文の#{}内の記述を変更
+
+・ユーザー新規登録時のログインID重複チェックで、重複なし(Null)の場合にNullPointerException
+→Mapper.xmlのresultMapの記述ミス
+
+・パラメータNotFoundのエラー "Available Pramater are[0,1,param1,param2]"
+→Mapperで2つ以上の引数を使う場合は、@Paramを追記して指定する方法がある
+ex) UserMapper.java
+void editUsing(@Param("userId")Integer userId, @Param("using")Integer using);
+
+・管理画面から編集画面への遷移時に、ユーザーIDを渡せていない
+変更前
+@RequestMapping(value = "/userEdit", method = RequestMethod.GET)
+        public String userEdit(Model model){
+変更後
+@RequestMapping(～～)
+        public String userEdit(@ModelAttribute UserEditForm form, Model model){
+
+・BindingException: Invalid bound statement (not found)→Mapper.xmlのidにスペルミスがあった
+
+改行表示
+・setの仕方にミスがあった。
+definedMessagesEntity.set(i.text);
+→definedMessagesEntity.get(i).setText(text);
+
+・AjaxのPOSTでパラメータが取得できない
+→clickイベントではなく、<form>タグのsubmitイベントを使って解決
+
+
+
+■Ajax
+・POSTした日本語の文字が、JSPに返したときに文字化けする
+→dataTypeをtextからjsonにして、controller側の戻り値を配列にして解決。
+@RequestMappingのパラメータにproducesを設定
+
+・DBから取得したデータをJSONに変換→ObjectMapper
+
+
+■OracleDBで一括INSERTできない（MySQLの構文を使っていた）
+insert all 
+into テーブル名 （カラム名）values (データ）
+into テーブル名 （カラム名）values (データ）
+select * from dual;
+■シーケンス
+CREATE SEQUENCE myseq;
+INSERT INTO テーブル名(id, col2) VALUES(myseq.NEXTVAL, 'hoge');
+■ファイルからSQL文を実行(ex)
+SQL> @C:\OracleSQL\message.sql

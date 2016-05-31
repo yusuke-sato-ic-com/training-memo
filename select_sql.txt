@@ -1,0 +1,80 @@
+select ～ from ～ where ～ order by ～;
+
+WHERE句
+
+比較条件	意味	例
+=	等しい	col=100
+!=,<>,^=	等しくない	col!=100
+>=	以上	col>=100
+<=	以下	col<=100
+>	より大きい	col>100
+<	より小さい	col<100
+BETWEEN a AND b	a以上b以下の範囲	col BETWEEN 100 AND 200
+NOT BETWEEN a AND b	a以上b以下の範囲外	col NOT BETWEEN 100 AND 200
+IN(リスト)	リスト内のいずれかと等しい	col IN(10,20)
+NOT IN(リスト)	リスト内のいずれとも等しくない	col NOT IN(10,20)
+IS NULL	NULL値である	col IS NULL
+IS NOT NULL	NULL値でない	col IS NOT NULL
+LIKE	文字パターンと一致する	col LIKE 'A%',col LIKE '_A'
+NOT LIKE	文字パターンと一致しない	col NOT LIKE 'A%'
+
+WHERE句で複数の条件を指定する場合
+論理条件	意味
+NOT	否定
+AND	論理積
+OR	論理和
+
+論理条件の優先順位
+(),NOT,AND,OR
+
+
+
+ORDER BY句(ソート)
+デフォルト	昇順
+column_name DESC	降順
+column_name DESC NULLS FIRST	NULLを先頭に
+column_name DESC NULLS LAST	NULLを最後に
+
+
+
+単一行関数	対象の表やビューの各行に対して、単一の結果行を戻す
+グループ関数	対象の行のグループに対して、単一の結果を戻す
+
+
+数値関数
+関数	説明
+CEIL(n)	n以上の最も小さい整数を戻す
+FLOOR(n)	n以下の最も大きい整数を戻す
+MOD(m,n)	mをnで割った余りを戻す
+POWER(m,n)	mをnで乗した値を戻す
+SQRT(n)	nの平方根を戻す
+ROUND(m[,n])	mを小数点以下n桁に四捨五入した値を戻す
+TRUNC(m[,n])	mを小数点以下n桁に切り捨てた値を戻す
+
+
+文字関数
+関数	説明
+LENGTH(文字列)	文字列の長さを文字数で戻す
+INSTR(文字列1,文字列2[,n,m])	文字列1のn番目の文字から文字列2の探索を開始し、文字列2がm番目に現れる位置を戻す
+SUBSTR(文字列,n[,m])	文字列のn番目の文字からm文字の長さの文字列を抜き出して戻す
+INITCAP(文字列)	各単語の最初の文字を大文字、残りの文字を小文字にして戻す
+UPPER(文字列)	文字列を大文字にして戻す
+LOWER(文字列)	文字列を小文字にして戻す
+CONCAT(文字列1,文字列2)	2つの文字列を1つに結合する
+LPAD(文字列,n[,パディング文字])	n桁になるように文字列の左にパディング文字を埋める
+RPAD(文字列,n[,パディング文字])	n桁になるように文字列の右にパディング文字を埋める
+TRIM([LEADING | TRAILING | BOTH] [文字列1 FROM] 文字列2)	文字列2の先頭、最後またはその両方から文字列1を切り捨てる
+REPLACE(文字列1,文字列2[,文字列3])	文字列1の中から文字列2を探し、文字列3に置換する
+
+
+日付関数
+関数	説明
+ADD_MONTH(日付,n)	日付にnヶ月足した値を戻す
+LAST_DAY(日付)	指定した日付の月の月末日を戻す
+NEXT_DAY(日付,曜日)	次の曜日を迎える日付を戻す
+MONTHS_BETWEEN(日付1,日付2)	日付1と日付2の間の月数を戻す
+SYSDATE	現在の日時を戻す
+TRUNC(日付[,書式])	書式で指定した単位に、日付データを切り捨てる
+ROUND(日付[,書式])	書式で指定した単位に、日付データを四捨五入する
+
+
